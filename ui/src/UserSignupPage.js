@@ -15,8 +15,15 @@ class UserSignupPage extends React.Component {
                     <input />
                 </div>
                 <div>
-                    <label >Username</label>
-                    <input />
+                    <label >Password</label>
+                    <input type={"password"} />
+                </div>
+                <div>
+                    <label >Password Repeat</label>
+                    <input type={"password"} />
+                </div>
+                <div>
+                    <button>Sign Up</button>
                 </div>
             </form>
     )
