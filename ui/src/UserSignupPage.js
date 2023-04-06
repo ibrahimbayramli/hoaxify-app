@@ -1,6 +1,8 @@
 import React from "react";
+import axios from "axios";
 
 class UserSignupPage extends React.Component {
+
 
     state={
         username:null,
@@ -15,6 +17,20 @@ class UserSignupPage extends React.Component {
             [name]:value
         })
     }
+    onClickSignup=event=>{
+        event.preventDefault();
+        const {username,displayName,password}=this.state;
+        const body={
+            username,
+            displayName,
+            password
+
+        }
+       axios.post("http://localhost:8088/api/1.0/users",body)
+    }
+
+
+
     render() {
         return (
 
@@ -38,12 +54,12 @@ class UserSignupPage extends React.Component {
                 </div>
                 <div>
 
-                    <button >Sign Up</button>
+                    <button onClick={this.onClickSignup} >Sign Up</button>
                 </div>
                 
             </form>
-    )
-    }
+    )}
+
 }
 
 export default UserSignupPage;
