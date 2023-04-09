@@ -1,5 +1,5 @@
 import React from "react";
-import {signup} from "../api/apiCalls";
+import {changeLanguage, signup} from "../api/apiCalls";
 import Input from "../components/Input";
 import {withTranslation} from "react-i18next"
 
@@ -21,17 +21,22 @@ class UserSignupPage extends React.Component {
         errors[name] = undefined;
         if (name === "password" || name === "passwordRepeat") {
             if (name === "password" && value !== this.state.passwordRepeat) {
-                errors.passwordRepeat =this.props.t("Password mismatch");
+                errors.passwordRepeat = this.props.t("Password mismatch");
             } else if (name === "passwordRepeat" && value !== this.state.password) {
                 errors.passwordRepeat = this.props.t("Password mismatch");
-            }else {
-                errors.passwordRepeat =undefined;
+            } else {
+                errors.passwordRepeat = undefined;
             }
         }
         this.setState({
             [name]: value,
             errors
         })
+    }
+    onChangeLanguage=language=>{
+        const {i18n}=this.props;
+        i18n.changeLanguage(language);
+        changeLanguage(language);
     }
     onClickSignup = async event => {
         event.preventDefault();
@@ -74,17 +79,19 @@ class UserSignupPage extends React.Component {
                     <Input name={"passwordRepeat"} label={this.props.t("Password Repeat")} error={passwordRepeat} onChange={this.onChange} type={"password"}/>
 
 
-
-
                     <div className="text-center mt-3">
                         <button
                             className={"btn btn-primary"}
                             onClick={this.onClickSignup}
-                            disabled={pendingApiCall || passwordRepeat!==undefined}
+                            disabled={pendingApiCall || passwordRepeat !== undefined}
                         >
                             {pendingApiCall && <span className="spinner-border spinner-border-sm me-1"></span>}
                             {this.props.t("Sign Up")}
                         </button>
+                    </div>
+                    <div>
+                        <img src={"https://flagsapi.com/TR/flat/32.png"} style={{cursor:"pointer"}} alt={"Turkish Flag"} onClick={()=>{this.onChangeLanguage("tr")}}></img>
+                        <img src={"https://flagsapi.com/US/flat/32.png"} style={{cursor:"pointer"}} alt={"USA Flag"} onClick={()=>{this.onChangeLanguage("en")}}></img>
                     </div>
 
 
@@ -95,6 +102,6 @@ class UserSignupPage extends React.Component {
 
 }
 
-const UserSignupPageWithTranslation=withTranslation()(UserSignupPage);
+const UserSignupPageWithTranslation = withTranslation()(UserSignupPage);
 
 export default UserSignupPageWithTranslation;
