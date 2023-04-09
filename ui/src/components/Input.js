@@ -1,12 +1,12 @@
 import React from "react";
 
 const Input = (props) => {
-    const {label,error,name,onChange}=props;
+    const {label,error,name,onChange,type}=props;
     const clasName=error ? "form-control is-invalid" : "form-control";
     return (
         <div className={"form-group"}>
             <label>{label}</label>
-            <input className={clasName} name={name} onChange={onChange}/>
+            <input className={clasName} name={name} onChange={onChange} type={type}/>
             <div className="invalid-feedback">{error}</div>
         </div>
     );
