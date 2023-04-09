@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import Input from "../components/Input";
+import {withTranslation} from "react-i18next";
 
 class LoginPage extends Component {
 
@@ -14,22 +15,25 @@ class LoginPage extends Component {
         })
     }
 
+
     render() {
+        const {t}=this.props
         return (
             <div className={"container"}>
                 <form>
-                    <h1 className={"text-center"}>Login</h1>
-                    <Input label={"Username"} name={"username"} onChange={this.onChange}/>
-                    <Input label={"Password"} name={"password"} onChange={this.onChange} type={"password"}/>
+                    <h1 className={"text-center"}>{t("Login")}</h1>
+                    <Input label={t("Username")} name={"username"} onChange={this.onChange}/>
+                    <Input label={t("Password")} name={"password"} onChange={this.onChange} type={"password"}/>
                     <div className="text-center mt-3">
                         <button className={"btn btn-primary"}>
-                            Sign Up
+                            {t("Login")}
                         </button>
                     </div>
+
                 </form>
             </div>
         );
     }
 }
 
-export default LoginPage;
+export default withTranslation()(LoginPage);
