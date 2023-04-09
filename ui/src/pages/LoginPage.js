@@ -35,7 +35,7 @@ class LoginPage extends Component {
                     <Input label={t("Username")} name={"username"} onChange={this.onChange}/>
                     <Input label={t("Password")} name={"password"} onChange={this.onChange} type={"password"}/>
                     <div className="text-center mt-3">
-                        <button className={"btn btn-primary"}>
+                        <button className={"btn btn-primary"} onClick={this.onClickLogin}>
                             {t("Login")}
                         </button>
                     </div>
