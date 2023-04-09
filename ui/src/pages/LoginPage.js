@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import Input from "../components/Input";
 import {withTranslation} from "react-i18next";
+import {login} from "../api/apiCalls";
 
 class LoginPage extends Component {
 
@@ -15,6 +16,15 @@ class LoginPage extends Component {
         })
     }
 
+    onClickLogin=event=>{
+        event.preventDefault();
+        const {username,password}=this.state;
+        const creds={
+            username,
+            password
+        };
+        login(creds);
+    }
 
     render() {
         const {t}=this.props
