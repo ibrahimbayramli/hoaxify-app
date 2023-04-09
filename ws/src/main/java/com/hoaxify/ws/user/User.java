@@ -1,5 +1,6 @@
 package com.hoaxify.ws.user;
 
+import com.hoaxify.ws.annotations.UniqueUsername;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -23,6 +24,7 @@ public class User {
 	@NotNull
 	@Size(min = 4, max = 255)
 	@Column(unique = true)
+	@UniqueUsername
 	private String username;
 	@NotNull
 	@Size(min = 4, max = 255)
