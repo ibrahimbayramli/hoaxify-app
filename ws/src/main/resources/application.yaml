@@ -16,3 +16,10 @@ spring:
         persistence:
           validation:
             mode: none
+
+#  ==========================
+#  CONDITION EVALUATION DELTA
+#  ==========================
+  devtools:
+    restart:
+      log-condition-evaluation-delta: false
