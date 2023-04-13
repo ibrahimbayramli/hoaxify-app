@@ -10,8 +10,7 @@ class LoginPage extends Component {
     state = {
         username: null,
         password: null,
-        error: null,
-        pendingApiCall: false
+        error: null
     }
     onChange = event => {
         const {name, value} = event.target;
@@ -21,19 +20,7 @@ class LoginPage extends Component {
         })
     }
 
-    componentDidMount() {
-        axios.interceptors.request.use((rq) => {
-            this.setState({pendingApiCall: true})
-            return rq;
-        })
-        axios.interceptors.response.use((rq)=>{
-            this.setState({pendingApiCall: false})
-            return rq;
-        },(error)=>{
-            this.setState({pendingApiCall: false})
-            throw error;
-        })
-    }
+
 
     onClickLogin = async event => {
         event.preventDefault();
@@ -54,8 +41,8 @@ class LoginPage extends Component {
     }
 
     render() {
-        const {t} = this.props;
-        const {username, password, error,pendingApiCall} = this.state;
+        const {t,pendingApiCall} = this.props;
+        const {username, password, error} = this.state;
         const buttonEnabled = username && password;
         return (
             <div className={"container"}>

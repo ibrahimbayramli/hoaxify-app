@@ -1,7 +1,7 @@
 import React from 'react';
-import { signup } from '../api/apiCalls';
+import {signup} from '../api/apiCalls';
 import Input from '../components/Input';
-import { withTranslation } from 'react-i18next';
+import {withTranslation} from 'react-i18next';
 import ButtonWithProgress from '../components/ButtonWithProgress';
 
 class UserSignupPage extends React.Component {
@@ -10,7 +10,6 @@ class UserSignupPage extends React.Component {
         displayName: null,
         password: null,
         passwordRepeat: null,
-        pendingApiCall: false,
         errors: {}
     };
 
@@ -58,9 +57,9 @@ class UserSignupPage extends React.Component {
     };
 
     render() {
-        const { pendingApiCall, errors } = this.state;
+        const { errors } = this.state;
         const { username, displayName, password, passwordRepeat } = errors;
-        const { t } = this.props;
+        const { t ,pendingApiCall} = this.props;
         return (
             <div className="container">
                 <form>
@@ -69,7 +68,7 @@ class UserSignupPage extends React.Component {
                     <Input name="displayName" label={t('Display Name')} error={displayName} onChange={this.onChange} />
                     <Input name="password" label={t('Password')} error={password} onChange={this.onChange} type="password" />
                     <Input name="passwordRepeat" label={t('Password Repeat')} error={passwordRepeat} onChange={this.onChange} type="password" />
-                    <div className="text-center">
+                    <div className="text-center mt-3">
                         <ButtonWithProgress
                             onClick={this.onClickSignup}
                             disabled={pendingApiCall || passwordRepeat !== undefined}
