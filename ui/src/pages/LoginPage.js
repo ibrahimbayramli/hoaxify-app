@@ -2,34 +2,51 @@ import React, {Component} from 'react';
 import Input from "../components/Input";
 import {withTranslation} from "react-i18next";
 import {login} from "../api/apiCalls";
+import axios from "axios";
+import ButtonWithProgress from "../components/ButtonWithProgress";
 
 class LoginPage extends Component {
 
     state = {
         username: null,
         password: null,
-        error:null
+        error: null,
+        pendingApiCall: false
     }
     onChange = event => {
         const {name, value} = event.target;
         this.setState({
             [name]: value,
-            error:null
+            error: null
         })
     }
 
-    onClickLogin= async event=>{
+    componentDidMount() {
+        axios.interceptors.request.use((rq) => {
+            this.setState({pendingApiCall: true})
+            return rq;
+        })
+        axios.interceptors.response.use((rq)=>{
+            this.setState({pendingApiCall: false})
+            return rq;
+        },(error)=>{
+            this.setState({pendingApiCall: false})
+            throw error;
+        })
+    }
+
+    onClickLogin = async event => {
         event.preventDefault();
-        const {username,password}=this.state;
-        const creds={
+        const {username, password} = this.state;
+        const creds = {
             username,
             password
         };
-        this.setState({error:null})
-        try{
+        this.setState({error: null})
+        try {
             await login(creds);
 
-        }catch (err){
+        } catch (err) {
             this.setState({
                 error: err.response.data.message
             })
@@ -37,9 +54,9 @@ class LoginPage extends Component {
     }
 
     render() {
-        const {t}=this.props;
-        const {username,password,error}=this.state;
-        const buttonEnabled =username && password;
+        const {t} = this.props;
+        const {username, password, error,pendingApiCall} = this.state;
+        const buttonEnabled = username && password;
         return (
             <div className={"container"}>
                 <form>
@@ -50,9 +67,15 @@ class LoginPage extends Component {
                         {error}
                     </div>}
                     <div className="text-center mt-3">
-                        <button disabled={!buttonEnabled} className={"btn btn-primary"} onClick={this.onClickLogin}>
-                            {t("Login")}
-                        </button>
+                        {/*<button disabled={!buttonEnabled || pendingApiCall} className={"btn btn-primary"} onClick={this.onClickLogin}>*/}
+                        {/*    {t("Login")}*/}
+                        {/*</button>*/}
+                        <ButtonWithProgress
+                            onClick={this.onClickLogin}
+                            disabled={!buttonEnabled || pendingApiCall}
+                            pendingApiCall={pendingApiCall}
+                            text={t('Login')}/>
+
                     </div>
 
                 </form>
