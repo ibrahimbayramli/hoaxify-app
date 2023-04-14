@@ -1,39 +1,49 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 
-class ApiProgress extends Component {
-    state = {
-        pendingApiCall: false
-    };
+function getDisplayName(WrappedComponent){
+    return WrappedComponent.displayName || WrappedComponent.name || "Component";
+}
 
-    componentDidMount() {
-        axios.interceptors.request.use(request => {
-            this.updateApiCallFor(request.url, true);
-            return request;
-        });
+export function withApiProgress(WrappedComponent,apiPath){
+    return class ApiProgress extends Component {
 
-        axios.interceptors.response.use(
-            response => {
-                this.updateApiCallFor(response.config.url, false);
-                return response;
-            },
-            error => {
-                this.updateApiCallFor(error.config.url, false);
-                throw error;
-            }
-        );
-    }
+        static displayName=`ApiProgress(${getDisplayName(WrappedComponent)})`;
 
-    updateApiCallFor = (url, inProgress) => {
-        if (url === this.props.path) {
-            this.setState({ pendingApiCall: inProgress });
+        state = {
+            pendingApiCall: false
+        };
+
+        componentDidMount() {
+            axios.interceptors.request.use(request => {
+                this.updateApiCallFor(request.url, true);
+                return request;
+            });
+
+            axios.interceptors.response.use(
+                response => {
+                    this.updateApiCallFor(response.config.url, false);
+                    return response;
+                },
+                error => {
+                    this.updateApiCallFor(error.config.url, false);
+                    throw error;
+                }
+            );
         }
-    };
 
-    render() {
-        const { pendingApiCall } = this.state;
-        return <div>{React.cloneElement(this.props.children, { pendingApiCall })}</div>;
+        updateApiCallFor = (url, inProgress) => {
+            if (url === apiPath) {
+                this.setState({ pendingApiCall: inProgress });
+            }
+        };
+
+        render() {
+            const { pendingApiCall } = this.state;
+            // return <div>{React.cloneElement(this.props.children, { pendingApiCall })}</div>;
+            return <WrappedComponent pendingApiCall={pendingApiCall} {... this.props}/>
+        }
     }
 }
 
-export default ApiProgress;
+

@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
 import Input from "../components/Input";
-import {withTranslation} from "react-i18next";
 import {login} from "../api/apiCalls";
-import axios from "axios";
 import ButtonWithProgress from "../components/ButtonWithProgress";
+import {withApiProgress} from "../shared/ApiProgress";
+import {withTranslation} from "react-i18next";
 
 class LoginPage extends Component {
 
@@ -69,4 +69,8 @@ class LoginPage extends Component {
     }
 }
 
-export default withTranslation()(LoginPage);
+const LoginPageWithApiProgress = withApiProgress(LoginPage, "/api/1.0/auth");
+const LoginPageWithTranslation = withTranslation()(LoginPageWithApiProgress);
+
+
+export default LoginPageWithTranslation;
