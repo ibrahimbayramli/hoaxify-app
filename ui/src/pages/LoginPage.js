@@ -54,9 +54,7 @@ class LoginPage extends Component {
                         {error}
                     </div>}
                     <div className="text-center mt-3">
-                        {/*<button disabled={!buttonEnabled || pendingApiCall} className={"btn btn-primary"} onClick={this.onClickLogin}>*/}
-                        {/*    {t("Login")}*/}
-                        {/*</button>*/}
+
                         <ButtonWithProgress
                             onClick={this.onClickLogin}
                             disabled={!buttonEnabled || pendingApiCall}
