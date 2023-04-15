@@ -21,7 +21,6 @@ class LoginPage extends Component {
     }
 
 
-
     onClickLogin = async event => {
         event.preventDefault();
         const {username, password} = this.state;
@@ -29,9 +28,11 @@ class LoginPage extends Component {
             username,
             password
         };
+        const {push} = this.props.history;
         this.setState({error: null})
         try {
             await login(creds);
+            push('/');
 
         } catch (err) {
             this.setState({
@@ -41,7 +42,7 @@ class LoginPage extends Component {
     }
 
     render() {
-        const {t,pendingApiCall} = this.props;
+        const {t, pendingApiCall} = this.props;
         const {username, password, error} = this.state;
         const buttonEnabled = username && password;
         return (
